@@ -1,0 +1,31 @@
+running egg_info
+creating ../../build/sensor_fusion/sensor_fusion.egg-info
+writing ../../build/sensor_fusion/sensor_fusion.egg-info/PKG-INFO
+writing dependency_links to ../../build/sensor_fusion/sensor_fusion.egg-info/dependency_links.txt
+writing entry points to ../../build/sensor_fusion/sensor_fusion.egg-info/entry_points.txt
+writing requirements to ../../build/sensor_fusion/sensor_fusion.egg-info/requires.txt
+writing top-level names to ../../build/sensor_fusion/sensor_fusion.egg-info/top_level.txt
+writing manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+reading manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+writing manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /root/StratoMiners/build/sensor_fusion/build
+creating /root/StratoMiners/build/sensor_fusion/build/lib
+creating /root/StratoMiners/build/sensor_fusion/build/lib/sensor_fusion
+copying sensor_fusion/__init__.py -> /root/StratoMiners/build/sensor_fusion/build/lib/sensor_fusion
+running install
+running install_lib
+creating /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion
+copying /root/StratoMiners/build/sensor_fusion/build/lib/sensor_fusion/__init__.py -> /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion
+byte-compiling /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /root/StratoMiners/install/sensor_fusion/share/ament_index
+creating /root/StratoMiners/install/sensor_fusion/share/ament_index/resource_index
+creating /root/StratoMiners/install/sensor_fusion/share/ament_index/resource_index/packages
+copying resource/sensor_fusion -> /root/StratoMiners/install/sensor_fusion/share/ament_index/resource_index/packages
+copying package.xml -> /root/StratoMiners/install/sensor_fusion/share/sensor_fusion
+running install_egg_info
+Copying ../../build/sensor_fusion/sensor_fusion.egg-info to /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/root/StratoMiners/build/sensor_fusion/install.log'

@@ -1,0 +1,24 @@
+[0.522s] Invoking command in '/root/StratoMiners/src/sensor_fusion': PYTHONPATH=/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/sensor_fusion build --build-base /root/StratoMiners/build/sensor_fusion/build install --prefix /root/StratoMiners/install/sensor_fusion --record /root/StratoMiners/build/sensor_fusion/install.log --single-version-externally-managed
+[0.727s] running egg_info
+[0.728s] writing ../../build/sensor_fusion/sensor_fusion.egg-info/PKG-INFO
+[0.728s] writing dependency_links to ../../build/sensor_fusion/sensor_fusion.egg-info/dependency_links.txt
+[0.728s] writing entry points to ../../build/sensor_fusion/sensor_fusion.egg-info/entry_points.txt
+[0.728s] writing requirements to ../../build/sensor_fusion/sensor_fusion.egg-info/requires.txt
+[0.728s] writing top-level names to ../../build/sensor_fusion/sensor_fusion.egg-info/top_level.txt
+[0.730s] reading manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+[0.731s] writing manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+[0.731s] running build
+[0.731s] running build_py
+[0.731s] copying sensor_fusion/hello_world.py -> /root/StratoMiners/build/sensor_fusion/build/lib/sensor_fusion
+[0.731s] running install
+[0.732s] running install_lib
+[0.732s] copying /root/StratoMiners/build/sensor_fusion/build/lib/sensor_fusion/hello_world.py -> /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion
+[0.733s] byte-compiling /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion/hello_world.py to hello_world.cpython-310.pyc
+[0.733s] running install_data
+[0.734s] running install_egg_info
+[0.735s] removing '/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion-0.0.0-py3.10.egg-info' (and everything under it)
+[0.735s] Copying ../../build/sensor_fusion/sensor_fusion.egg-info to /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion-0.0.0-py3.10.egg-info
+[0.736s] running install_scripts
+[0.754s] Installing hello_world script to /root/StratoMiners/install/sensor_fusion/lib/sensor_fusion
+[0.754s] writing list of installed files to '/root/StratoMiners/build/sensor_fusion/install.log'
+[0.778s] Invoked command in '/root/StratoMiners/src/sensor_fusion' returned '0': PYTHONPATH=/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/sensor_fusion build --build-base /root/StratoMiners/build/sensor_fusion/build install --prefix /root/StratoMiners/install/sensor_fusion --record /root/StratoMiners/build/sensor_fusion/install.log --single-version-externally-managed
