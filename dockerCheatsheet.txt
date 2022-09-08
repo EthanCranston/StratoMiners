@@ -1,0 +1,15 @@
+docker pull {name} //gets image from hub hint: osrf/ros:humble-desktop-full
+docker ps //lists running containers
+docker ps -a //lists all containers
+docker images //lists downloaded images
+docker rm {hash} //deletes image
+docker run {image name} //creates container hint: osrf/ros:humble-desktop-full
+docker run -dit {image name // creates persistent container in background (d = detached, i = interactive (keeps STDIN open when detached), -t = TTY)
+docker kill {has} //ends container
+docker start {hash} //restarts exited container
+docker attach {hash} //attaches container to current terminal
+ctrl+d // exits attached container
+docker exec -t {has} {command} // runs command on detached container (-t changes something about how the terminal interacts and formats the output better)
+
+
+ros2 run turtlesim turtlesim_node
