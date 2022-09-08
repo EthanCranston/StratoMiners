@@ -11,5 +11,7 @@ docker attach {hash} //attaches container to current terminal
 ctrl+d // exits attached container
 docker exec -t {has} {command} // runs command on detached container (-t changes something about how the terminal interacts and formats the output better)
 
+docker run -it   --cap-add=SYS_PTRACE  --net host --ipc host  --privileged   -e DISPLAY   -e XAUTHORITY   -v /tmp/.X11-unix:/tmp/.X11-unix  --name humble_devel osrf/ros:humble-desktop-full
+
 
 ros2 run turtlesim turtlesim_node

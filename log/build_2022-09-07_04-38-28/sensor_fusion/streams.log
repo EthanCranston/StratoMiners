@@ -1,0 +1,20 @@
+[0.509s] Invoking command in '/root/StratoMiners/src/sensor_fusion': PYTHONPATH=/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/sensor_fusion build --build-base /root/StratoMiners/build/sensor_fusion/build install --prefix /root/StratoMiners/install/sensor_fusion --record /root/StratoMiners/build/sensor_fusion/install.log --single-version-externally-managed
+[0.710s] running egg_info
+[0.710s] writing ../../build/sensor_fusion/sensor_fusion.egg-info/PKG-INFO
+[0.711s] writing dependency_links to ../../build/sensor_fusion/sensor_fusion.egg-info/dependency_links.txt
+[0.711s] writing entry points to ../../build/sensor_fusion/sensor_fusion.egg-info/entry_points.txt
+[0.711s] writing requirements to ../../build/sensor_fusion/sensor_fusion.egg-info/requires.txt
+[0.711s] writing top-level names to ../../build/sensor_fusion/sensor_fusion.egg-info/top_level.txt
+[0.713s] reading manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+[0.713s] writing manifest file '../../build/sensor_fusion/sensor_fusion.egg-info/SOURCES.txt'
+[0.713s] running build
+[0.714s] running build_py
+[0.714s] running install
+[0.714s] running install_lib
+[0.715s] running install_data
+[0.715s] running install_egg_info
+[0.716s] removing '/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion-0.0.0-py3.10.egg-info' (and everything under it)
+[0.717s] Copying ../../build/sensor_fusion/sensor_fusion.egg-info to /root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages/sensor_fusion-0.0.0-py3.10.egg-info
+[0.717s] running install_scripts
+[0.736s] writing list of installed files to '/root/StratoMiners/build/sensor_fusion/install.log'
+[0.760s] Invoked command in '/root/StratoMiners/src/sensor_fusion' returned '0': PYTHONPATH=/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/sensor_fusion build --build-base /root/StratoMiners/build/sensor_fusion/build install --prefix /root/StratoMiners/install/sensor_fusion --record /root/StratoMiners/build/sensor_fusion/install.log --single-version-externally-managed
