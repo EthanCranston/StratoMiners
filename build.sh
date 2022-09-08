@@ -2,5 +2,7 @@
 
 #first we build all the packages
 colcon build
-# then we source the bashrc
-source ~/.bashrc
+
+source ./install/setup.bash
+source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+source /opt/ros/humble/setup.bash
