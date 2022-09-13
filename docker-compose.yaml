@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  rosenv:
+    build: ./rosEnv
+    container_name: dev_container
+    volumes:
+      - ./rosEnv:/rosEnv
+      - /tmp/.X11-unix:/tmp/.X11-unix # -v /tmp/.X11-unix:/tmp/.X11-unix
+    tty: true # -t
+    stdin_open: true # -i
+    cap_add: # --cap-add=SYS_PTRACE
+      - SYS_PTRACE
+    network_mode: "host" # --net host
+    ipc: "host" # --ipc host
+    privileged: true # --privileged
+    environment: # -e DISPLAY   -e XAUTHORITY
+      - DISPLAY
+      - XAUTHORITY
+    
+

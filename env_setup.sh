@@ -12,7 +12,7 @@ container_name="dev_container"
 xhost +local:root
 
 # Start the humble_devel docker 
-alias start_dev="docker run -it --cap-add=SYS_PTRACE --net host --ipc host --privileged -e DISPLAY -e XAUTHORITY -v /tmp/.X11-unix:/tmp/.X11-unix --name $container_name strato-miners-container"
+alias start_dev="docker compose up -d && docker attach $container_name"
 
 # General utilites for restart, remove 
 alias open_dev="docker start -i $container_name"
