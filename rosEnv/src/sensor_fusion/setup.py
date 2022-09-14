@@ -20,7 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "hello_world = sensor_fusion.hello_world:main"
+            "hello_world = sensor_fusion.hello_world:main",
+            "image_show = sensor_fusion.image_show:main",
+            "image_detection = sensor_fusion.image_detection:main"
         ],
     },
 )

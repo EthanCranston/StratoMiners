@@ -1,0 +1,6 @@
+/rosEnv/logs
+/rosEnv/build
+/rosEnv/install
+/rosEnv/bags
+/rosEnv/log
+.vscode

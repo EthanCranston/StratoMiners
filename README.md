@@ -11,13 +11,15 @@ Then, either source env_setup.sh, or
 - run `docker compose up -d` to start container
 
 ## Build
-- Navigate to the home directory of the docker conatiner `cd ~`
-- Source the "build.sh" script `source build.sh`
-- Run the ros node `ros2 run sensor_fusion hello_world`
+- Navigate to the workspace of the docker container `cd ~`
+- Run the "install.sh" script only once to install packages `./install.sh`
+- Source the "build.sh" script to source all packages `source build.sh`
 
+## Darknet
+See [Darknet](docs/Darknet.md) for more on using Darknet.
 
 ## Git best-practices
-### Mergeing to main
+### Merging to main
 1. `git switch main`
 2. `git pull`
 3. `git switch {yourBranch}`
@@ -29,5 +31,6 @@ Then, either source env_setup.sh, or
 9. In the "Reviewers" sidebar, request a review from everyone on the team.
 10. Make any changes and get approval.
 11. In you PR on GitHub, select "Squash and merge" (You may have to look for this in a dropdown menu)
+
 ## Other
 - To edit files from git in VSCode instead of VIM run `git config --global core.editor "code --wait"`
