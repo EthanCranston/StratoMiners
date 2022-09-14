@@ -34,8 +34,6 @@ RUN cmake --build .
 
 #Installs boost and necessary requirements
 RUN cd ../..
-RUN mkdir boost
-RUN cd boost
 RUN sudo apt-get install -y libboost-all-dev
 
 #Installs darknet_ros and dependencies
