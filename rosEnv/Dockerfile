@@ -24,6 +24,8 @@ COPY ./build.sh /root/build.sh
 RUN chmod +x /root/build.sh
 
 #Installs OpenCV
+RUN mkdir opencv
+RUN cd opencv
 RUN sudo apt update && sudo apt install -y cmake g++ wget unzip
 RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
 RUN unzip opencv.zip
@@ -32,12 +34,21 @@ RUN cmake  ../opencv-4.x
 RUN cmake --build .
 
 #Installs boost and necessary requirements
+RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
 
 #Installs darknet_ros and dependencies
 # Attempting to figure out how to do this from the repository
-# https://github.com/leggedrobotics/darknet_ros/tree/master
-# https://github.com/ros2/openrobotics_darknet_ros
+#   https://github.com/ros2/openrobotics_darknet_ros
+# The following packages are required:
+#   ament_cmake
+#   cv_bridge
+#   darknet_vendor
+#   rclcpp
+#   rclcpp_components
+#   sensor_msgs
+#   vision_msgs
+#   ament_lint_auto
 
 COPY . .
 WORKDIR /rosEnv
