@@ -10,6 +10,7 @@ RUN sudo apt-get upgrade -y
 RUN sudo apt-get update -y
 RUN sudo apt -y install python3-pip
 RUN pip3 install setuptools==58.2.0
+RUN pip3 install opencv-python
 RUN sudo apt -y install vim
 RUN sudo apt -y install emacs
 RUN export TZ='America/Denver'
