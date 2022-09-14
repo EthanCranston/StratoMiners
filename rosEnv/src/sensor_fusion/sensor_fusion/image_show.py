@@ -26,7 +26,9 @@ class ImageShow(Node):
         except CvBridgeError as e:
             self.get_logger().error("CvBridge Error: " + str(e))
 
-        cv2.imshow("Window", cv_image)
+        cv2.namedWindow("Window", cv2.WINDOW_NORMAL)
+        imS = cv2.resize(cv_image, (960, 540))
+        cv2.imshow("Window", imS)
         cv2.waitKey(3)
         
 
