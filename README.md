@@ -24,7 +24,9 @@ Then, either source env_setup.sh, or
 4. `git rebase -i main`
 5. Squash down to one commit by changing all commits to `fastforward` except for the first
 6. Resolve any conflicts
-7. `git switch main`
-8. `git merge {yourBranch}`
+7. `git push`
+8. Go to {yourBranch} on GitHub and click "Create pull request"
+9. Make any changes and get approval
+10. Squash and Merge
 ## Other
 - To edit files from git in VSCode instead of VIM run `git config --global core.editor "code --wait"`
