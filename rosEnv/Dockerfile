@@ -39,7 +39,6 @@ RUN cd boost
 RUN sudo apt-get install -y libboost-all-dev
 
 #Installs darknet_ros and dependencies
-RUN cd ..
 # Attempting to figure out how to do this from the repository
 #   https://github.com/ros2/openrobotics_darknet_ros
 # The following packages are required:
