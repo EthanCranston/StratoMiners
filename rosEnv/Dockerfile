@@ -33,7 +33,7 @@ RUN cmake  ../opencv-4.x
 RUN cmake --build .
 
 #Installs boost and necessary requirements
-RUN cd ..
+RUN cd ../..
 RUN mkdir boost
 RUN cd boost
 RUN sudo apt-get install -y libboost-all-dev
