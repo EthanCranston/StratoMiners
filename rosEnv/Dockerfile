@@ -15,45 +15,25 @@ RUN sudo apt -y install vim
 RUN sudo apt -y install emacs
 RUN export TZ='America/Denver'
 
-#Adds contents of folder into container
-COPY ./src /root/src
-COPY ./bags /root/bags
-COPY ./build /root/build
-COPY ./install /root/install
-COPY ./build.sh /root/build.sh
-RUN chmod +x /root/build.sh
-
-#Installs OpenCV
-RUN mkdir opencv
-RUN cd opencv
-RUN sudo apt update && sudo apt install -y cmake g++ wget unzip
-RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
-RUN unzip opencv.zip
-RUN mkdir -p build && cd build
-RUN cmake  ../opencv-4.x
-RUN cmake --build .
-
 #Installs boost and necessary requirements
 RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
 
-#Installs darknet_ros from the ros2 branch
-RUN sudo apt-get update -y
-RUN mkdir colcon_workspace
-RUN cd colcon_workspace
-RUN mkdir src
-RUN cd src
-RUN git clone https://github.com/leggedrobotics/darknet_ros.git -b foxy
-RUN cd darknet_ros
-RUN git clone https://github.com/leggedrobotics/darknet.git -b yolov3
-RUN cd ../..
-RUN colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
-RUN cd ..
-RUN source colcon_workspace/install/local_setup.bash
+#Adds contents of folder into container
+COPY ./src /root/src
+COPY ./bags /root/bags
+COPY ./scripts /root/scripts
+COPY ./build.sh /root/build.sh
+RUN chmod +x /root/build.sh
+RUN chmod +x /root/scripts/darknet.sh
+RUN chmod +x /root/scripts/opencv.sh
 
+# Sets up work environment
 COPY . .
 WORKDIR /rosEnv
 RUN chmod +x /build.sh
+RUN chmod +x /scripts/darknet.sh
+RUN chmod +x /scripts/opencv.sh
 
 #Creates Docker contatiner
 #RUN docker run -it   --cap-add=SYS_PTRACE  --net host --ipc host  --privileged   -e DISPLAY   -e XAUTHORITY   -v /tmp/.X11-unix:/tmp/.X11-unix  --name humble_devel osrf/ros:humble-desktop-full
