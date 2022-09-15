@@ -37,18 +37,19 @@ RUN cmake --build .
 RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
 
-#Installs darknet_ros and dependencies
-# Attempting to figure out how to do this from the repository
-#   https://github.com/ros2/openrobotics_darknet_ros
-# The following packages are required:
-#   ament_cmake
-#   cv_bridge
-#   darknet_vendor
-#   rclcpp
-#   rclcpp_components
-#   sensor_msgs
-#   vision_msgs
-#   ament_lint_auto
+#Installs darknet_ros from the ros2 branch
+RUN sudo apt-get update -y
+RUN mkdir colcon_workspace
+RUN cd colcon_workspace
+RUN mkdir src
+RUN cd src
+RUN git clone https://github.com/leggedrobotics/darknet_ros.git -b foxy
+RUN cd darknet_ros
+RUN git clone https://github.com/leggedrobotics/darknet.git -b yolov3
+RUN cd ../..
+RUN colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+RUN cd ..
+RUN source colcon_workspace/install/local_setup.bash
 
 COPY . .
 WORKDIR /rosEnv
