@@ -15,6 +15,16 @@ RUN sudo apt -y install vim
 RUN sudo apt -y install emacs
 RUN export TZ='America/Denver'
 
+#Installs OpenCV so that each container doesn't have to that individually
+RUN mkdir opencv
+RUN cd opencv
+RUN sudo apt update && sudo apt install -y cmake g++ wget unzip
+RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
+RUN unzip opencv.zip
+RUN mkdir -p build && cd build
+RUN cmake  ../opencv-4.x
+RUN cmake --build .
+
 #Installs boost and necessary requirements
 RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
