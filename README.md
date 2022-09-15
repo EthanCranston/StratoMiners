@@ -12,6 +12,8 @@ Then, either source env_setup.sh, or
 
 ## Build
 - Navigate to the home directory of the docker conatiner `cd ~`
+- BEFORE DOING ANYTHING ELSE, run the "opencv.sh" script to set up OpenCV `./scripts/darknet.sh`
+- Run the "darknet.sh" script to set-up the necessary darknet wrapper `./scripts/darknet.sh`
 - Source the "build.sh" script `source build.sh`
 - Run the ros node `ros2 run sensor_fusion hello_world`
 
