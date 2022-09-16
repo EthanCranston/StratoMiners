@@ -36,14 +36,12 @@ COPY ./scripts /root/scripts
 COPY ./build.sh /root/build.sh
 RUN chmod +x /root/build.sh
 RUN chmod +x /root/scripts/darknet.sh
-RUN chmod +x /root/scripts/opencv.sh
 
 # Sets up work environment
 COPY . .
 WORKDIR /rosEnv
 RUN chmod +x /build.sh
 RUN chmod +x /scripts/darknet.sh
-RUN chmod +x /scripts/opencv.sh
 
 #Creates Docker contatiner
 #RUN docker run -it   --cap-add=SYS_PTRACE  --net host --ipc host  --privileged   -e DISPLAY   -e XAUTHORITY   -v /tmp/.X11-unix:/tmp/.X11-unix  --name humble_devel osrf/ros:humble-desktop-full
