@@ -9,6 +9,7 @@ Field session (CSCI-370) project for Stratom
 Then, either source env_setup.sh, or
 - run `./env_setup.sh`
 - run `docker compose up -d` to start container
+- run `docker exec -it --privileged -e DISPLAY -e XAUTHORITY <CONTAINER_NAME> bash` to open another terminal of a container
 
 ## Build
 - Navigate to the home directory of the docker conatiner `cd ~`
