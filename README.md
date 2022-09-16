@@ -12,10 +12,13 @@ Then, either source env_setup.sh, or
 
 ## Build
 - Navigate to the home directory of the docker conatiner `cd ~`
-- Run the "darknet.sh" script to set-up the necessary darknet wrapper `./scripts/darknet.sh`
 - Source the "build.sh" script `source build.sh`
 - Run the ros node `ros2 run sensor_fusion hello_world`
 
+## Using darknet to detect humans in images
+- Currently, you will have to build darknet_ros for every new container on the image composed by docker.
+- For your first instance of using darknet_ros in a container, run the "darknet.sh" script to build it `./scripts/darknet.sh`
+- For all subsequent instances in the same container, source darknet_ros's local setup: `source /colcon_workspace/install/local_setup.bash`
 
 ## Git best-practices
 ### Mergeing to main

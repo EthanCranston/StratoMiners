@@ -1,5 +1,5 @@
 # First, create the workspace
-cd ../..
+cd /
 sudo apt-get update -y
 mkdir colcon_workspace
 cd colcon_workspace
