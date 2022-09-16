@@ -14,4 +14,4 @@ cd ../..
 
 # Build and source darknet
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
-source install/local_setup.bash
+source /colcon_workspace/install/local_setup.bash
