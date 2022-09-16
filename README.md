@@ -9,20 +9,17 @@ Field session (CSCI-370) project for Stratom
 Then, either source env_setup.sh, or
 - run `./env_setup.sh`
 - run `docker compose up -d` to start container
-- run `docker exec -it --privileged -e DISPLAY -e XAUTHORITY <CONTAINER_NAME> bash` to open another terminal of a container
 
 ## Build
-- Navigate to the home directory of the docker conatiner `cd ~`
-- Source the "build.sh" script `source build.sh`
+- Navigate to the home directory of the docker container `cd ~`
+- Source the "build.sh" script `source /rosEnv/build.sh`
+- Run the "darknet.sh" script `./scripts/darknet.sh`
+- Source darknet_ros's local setup `source /colcon_workspace/install/local_setup.bash`
 - Run the ros node `ros2 run sensor_fusion hello_world`
-
-## Using darknet to detect humans in images
-- Currently, you will have to build darknet_ros for every new container on the image composed by docker.
-- For your first instance of using darknet_ros in a container, run the "darknet.sh" script to build it `./scripts/darknet.sh`
-- For all subsequent instances in the same container, source darknet_ros's local setup: `source /colcon_workspace/install/local_setup.bash`
+- To run darknet, run `ros2 run darknet_ros darknet_ros`
 
 ## Git best-practices
-### Mergeing to main
+### Merging to main
 1. `git switch main`
 2. `git pull`
 3. `git switch {yourBranch}`
@@ -34,5 +31,6 @@ Then, either source env_setup.sh, or
 9. In the "Reviewers" sidebar, request a review from everyone on the team.
 10. Make any changes and get approval.
 11. In you PR on GitHub, select "Squash and merge" (You may have to look for this in a dropdown menu)
+
 ## Other
 - To edit files from git in VSCode instead of VIM run `git config --global core.editor "code --wait"`
