@@ -15,6 +15,5 @@ cd ../..
 # Build darknet
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# Overwrite launch file
-rm -f /colcon_workspace/install/darknet_ros/share/darknet_ros/launch/darknet_ros.launch.py
-cp -fr /rosEnv/scripts/darknet_ros.launch.py /colcon_workspace/install/darknet_ros/share/darknet_ros/launch
+# Copy launch file
+cp -fr /rosEnv/scripts/darknet_ros_stratominers.launch.py /colcon_workspace/install/darknet_ros/share/darknet_ros/launch
