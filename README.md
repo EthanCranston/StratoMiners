@@ -16,7 +16,7 @@ Then, either source env_setup.sh, or
 - Run the "darknet.sh" script `./scripts/darknet.sh`
 - Source darknet_ros's local setup `source /colcon_workspace/install/local_setup.bash`
 - Run the ros node `ros2 run sensor_fusion hello_world`
-- To run darknet, run `ros2 run darknet_ros darknet_ros`
+- To run darknet, run `ros2 launch darknet_ros darknet_ros.launch.py`
 
 ## Git best-practices
 ### Merging to main

@@ -15,5 +15,6 @@ cd ../..
 # Build darknet
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# Source darknet
-source /colcon_workspace/install/local_setup.bash
+# Overwrite launch file
+rm -f /colcon_workspace/install/darknet_ros/share/darknet_ros/launch/darknet_ros.launch.py
+cp -fr /rosEnv/scripts/darknet_ros.launch.py /colcon_workspace/install/darknet_ros/share/darknet_ros/launch
