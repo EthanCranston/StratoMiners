@@ -11,11 +11,9 @@ Then, either source env_setup.sh, or
 - run `docker compose up -d` to start container
 
 ## Build
-- Navigate to the home directory of the docker container `cd ~`
-- Source the "build.sh" script `source /rosEnv/build.sh`
-- Run the "darknet.sh" script `./darknet/darknet.sh`
-- Source darknet_ros's local setup `source /colcon_workspace/install/local_setup.bash`
-- Run the ros node `ros2 run sensor_fusion hello_world`
+- Navigate to the workspace of the docker container `cd /rosEnv`
+- Run the "darknet.sh" script to install darknet `./darknet.sh`
+- Source the "build.sh" script `source build.sh`
 - To run darknet, run `ros2 launch darknet_ros darknet_ros.launch.py`
 
 ## Git best-practices

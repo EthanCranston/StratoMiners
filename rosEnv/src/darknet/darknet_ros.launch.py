@@ -12,6 +12,7 @@ from launch_ros.actions import Node
 
 # Generates a launch description
 # Uses the default yolov2-tiny dataset for now
+# May want to switch to yolov3 later
 def generate_launch_description():
     darknet_ros_share_dir = get_package_share_directory('darknet_ros')
 
@@ -24,7 +25,7 @@ def generate_launch_description():
     ros_param_file = LaunchConfiguration(
         'ros_param_file', default=darknet_ros_share_dir + 'config/ros.yaml')
     network_param_file = LaunchConfiguration(
-        'network_param_file', default=darknet_ros_share_dir + 'config/yolov2-tiny.yaml')
+        'network_param_file', default=darknet_ros_share_dir + 'config/yolov2-tiny-stratominers.yaml')
 
     # Declare images and weights
     declare_image_cmd = DeclareLaunchArgument(
@@ -45,7 +46,7 @@ def generate_launch_description():
         description='Path to file with ROS related config')
     declare_network_param_file_cmd = DeclareLaunchArgument(
         'network_param_file',
-        default_value=darknet_ros_share_dir + '/config/yolov2-tiny.yaml',
+        default_value=darknet_ros_share_dir + '/config/yolov2-tiny-stratominers.yaml',
         description='Path to file with network param file')
 
     # Make node out of raw image stream

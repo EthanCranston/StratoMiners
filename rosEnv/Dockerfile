@@ -29,19 +29,14 @@ RUN cmake --build .
 RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
 
-#Adds contents of folder into container
-COPY ./src /root/src
+#Adds bags into container
 COPY ./bags /root/bags
-COPY ./darknet /root/darknet
-COPY ./build.sh /root/build.sh
-RUN chmod +x /root/build.sh
-RUN chmod +x /root/darknet/darknet.sh
 
-# Sets up work environment
+# Sets up work environment and copies rosEnv contents
 COPY . .
 WORKDIR /rosEnv
 RUN chmod +x /build.sh
-RUN chmod +x /darknet/darknet.sh
+RUN chmod +x /darknet.sh
 
 #Creates Docker contatiner
 #RUN docker run -it   --cap-add=SYS_PTRACE  --net host --ipc host  --privileged   -e DISPLAY   -e XAUTHORITY   -v /tmp/.X11-unix:/tmp/.X11-unix  --name humble_devel osrf/ros:humble-desktop-full
