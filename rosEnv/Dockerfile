@@ -29,9 +29,6 @@ RUN cmake --build .
 RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
 
-#Adds bags into container
-COPY ./bags /root/bags
-
 # Sets up work environment and copies rosEnv contents
 COPY . .
 WORKDIR /rosEnv

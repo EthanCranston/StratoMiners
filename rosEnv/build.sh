@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #first we build all the packages
-colcon build
+colcon build --packages-skip darknet_ros
 
 source ./install/setup.bash
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
