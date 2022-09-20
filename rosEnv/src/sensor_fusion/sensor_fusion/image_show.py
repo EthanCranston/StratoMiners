@@ -20,6 +20,8 @@ class ImageShow(Node):
     
     def image_callback(self, image: Image):
         #self.get_logger().info("Image Recieved:" + str(image.header))
+        self.get_logger().info("Width: " + str(image.width))
+        self.get_logger().info("Height: " + str(image.height))
 
         try:
             cv_image = self.bridge.imgmsg_to_cv2(image, image.encoding)
