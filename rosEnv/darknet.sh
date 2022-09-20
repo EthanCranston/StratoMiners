@@ -12,13 +12,13 @@ bash /colcon_workspace/src/darknet_ros/rm_darknet_CMakeLists.sh
 
 # Replace CMakeLists.txt to bypass CUDA requirement
 rm -rf /colcon_workspace/src/darknet_ros/darknet_ros/CMakeLists.txt
-cp -fr /rosEnv/darknet/CMakeLists.txt /colcon_workspace/src/darknet_ros/darknet_ros
+cp -fr /rosEnv/src/darknet/CMakeLists.txt /colcon_workspace/src/darknet_ros/darknet_ros
 
 # Build darknet
 cd /colcon_workspace
 colcon build --symlink-install
 
 # Replace config and launch files
-cp -fr /rosEnv/darknet/ros-stratominers.yaml /colcon_workspace/install/darknet_ros/share/darknet_ros/config
-cp -fr /rosEnv/darknet/yolov7-tiny-stratominers.yaml /colcon_workspace/install/darknet_ros/share/darknet_ros/config
-cp -fr /rosEnv/darknet/stratominers.launch.py /colcon_workspace/install/darknet_ros/share/darknet_ros/launch
+cp -fr /rosEnv/src/darknet/ros-stratominers.yaml /colcon_workspace/install/darknet_ros/share/darknet_ros/config
+cp -fr /rosEnv/src/darknet/yolov7-tiny-stratominers.yaml /colcon_workspace/install/darknet_ros/share/darknet_ros/config
+cp -fr /rosEnv/src/darknet/stratominers.launch.py /colcon_workspace/install/darknet_ros/share/darknet_ros/launch

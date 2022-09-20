@@ -14,7 +14,7 @@ Then, either source env_setup.sh, or
 - Navigate to the workspace of the docker container `cd /rosEnv`
 - Run the "darknet.sh" script to install darknet `./darknet.sh`
 - Source the "build.sh" script `source build.sh`
-- To run darknet, run `ros2 launch darknet_ros darknet_ros.launch.py`
+- To run darknet, run `ros2 launch darknet_ros stratominers.launch.py`
 
 ## Git best-practices
 ### Merging to main
