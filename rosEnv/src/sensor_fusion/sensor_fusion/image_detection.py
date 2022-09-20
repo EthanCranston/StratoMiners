@@ -15,6 +15,7 @@ NMS_THRESHOLD = 0.3
 
 #/colcon_workspace/install/darknet_ros/share/darknet_ros/yolo_network_config/weights/yolov2-tiny.weights
 
+# Modified to use YOLOv7-tiny library for relevancy and efficiency
 class ImageDetection(Node):
 
     def __init__(self):
@@ -28,8 +29,8 @@ class ImageDetection(Node):
         self.bridge = CvBridge()
 
         darknet_ros_share_dir = get_package_share_directory('darknet_ros')
-        weights = darknet_ros_share_dir + '/yolo_network_config/weights/yolov3.weights'
-        cfg = darknet_ros_share_dir + '/yolo_network_config/cfg/yolov3.cfg'
+        weights = darknet_ros_share_dir + '/yolo_network_config/weights/yolov7-tiny.weights'
+        cfg = darknet_ros_share_dir + '/yolo_network_config/cfg/yolov7-tiny.cfg'
         self.yolo = cv2.dnn.readNetFromDarknet(cfg, weights)
         self.yolo.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
 
