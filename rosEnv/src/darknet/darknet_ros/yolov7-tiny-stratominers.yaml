@@ -1,0 +1,92 @@
+darknet_ros:
+  ros__parameters:
+    yolo_model:
+      config_file:
+        name: yolov7-tiny.cfg
+      weight_file:
+        name: yolov7-tiny.weights
+      threshold:
+        value: 0.3
+      window_name: YOLO V7
+      detection_classes:
+        names:
+          - person
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show
+          - dont_show

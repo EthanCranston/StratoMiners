@@ -1,3 +1,0 @@
-[console_scripts]
-hello_world = sensor_fusion.hello_world:main
-
