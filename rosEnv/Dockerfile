@@ -24,7 +24,7 @@ RUN mkdir -p build && cd build
 RUN cmake  ../opencv-4.x
 RUN cmake --build .
 
-#Installs boost and necessary requirements
+# Installs boost and necessary requirements
 RUN cd ../..
 RUN sudo apt-get install -y libboost-all-dev
 
@@ -32,6 +32,7 @@ RUN sudo apt-get install -y libboost-all-dev
 COPY . .
 WORKDIR /rosEnv
 RUN chmod +x /build.sh
+RUN chmod +x /install.sh
 
 #Creates Docker contatiner
 #RUN docker run -it   --cap-add=SYS_PTRACE  --net host --ipc host  --privileged   -e DISPLAY   -e XAUTHORITY   -v /tmp/.X11-unix:/tmp/.X11-unix  --name humble_devel osrf/ros:humble-desktop-full
