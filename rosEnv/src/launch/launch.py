@@ -6,21 +6,19 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    # launch darknet
+    # Launch darknet
     darknet = ExecuteProcess(
         cmd=['ros2', 'launch', 'darknet_ros', 'stratominers.launch.py']
     )
 
-    # Play the bag
+    # Play and loop the bag
     bag_play = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '/rosEnv/bags/rosbag2_2022_09_06-14_59_23']
+        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-14_59_23']
     )
 
-    image_annotaion = Node(
-        package='sensor_fusion',
-        executable='image_show',
-        name='image_show',
-        output='screen'
+    # Visualize everything in RViz2
+    image_annotaion = ExecuteProcess(
+        cmd=['rviz2', '-d', '/rosEnv/src/launch/launch.rviz']
     )
 
     ld = LaunchDescription()
