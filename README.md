@@ -14,6 +14,7 @@ Then, either source env_setup.sh, or
 - Navigate to the workspace of the docker container `cd ~`
 - Run the "install.sh" script only once to install packages `./install.sh`
 - Source the "build.sh" script to source all packages `source build.sh`
+- Start the node using the alias in the "build.sh" script `start_node`
 
 ## Darknet
 See [Darknet](docs/Darknet.md) for more on using Darknet.
