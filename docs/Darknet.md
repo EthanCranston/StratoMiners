@@ -6,7 +6,6 @@ Darknet takes an image from a camera, runs the image through YOLO and OpenCV to 
 
 ## How to use Darknet in our environment
 - Navigate to the workspace of the docker container `cd /rosEnv`
-- Run the "darknet.sh" script to install Darknet `./darknet.sh`
 - Source the "build.sh" script `source build.sh`
 - To run Darknet, run `ros2 launch darknet_ros stratominers.launch.py`
 - Then, in another terminal, navigate to the directory where your bags are placed and play any bag with image data.

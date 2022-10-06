@@ -12,7 +12,7 @@ Then, either source env_setup.sh, or
 
 ## Build
 - Navigate to the workspace of the docker container `cd ~`
-- Run the "install.sh" script only once to install packages `./install.sh`
+- Build all packages with colcon `colcon build --symlink-install`
 - Source the "build.sh" script to source all packages `source build.sh`
 - Start the node using the alias in the "build.sh" script `start_node`
 
