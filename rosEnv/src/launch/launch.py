@@ -13,7 +13,7 @@ def generate_launch_description():
 
     # Play and loop the bag
     bag_play = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-14_59_23']
+        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-15_07_58']
     )
 
     # Visualize everything in RViz2
