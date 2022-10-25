@@ -1,3 +1,9 @@
 [submodule "rosEnv/src/darknet_ros"]
 	path = rosEnv/src/darknet_ros
 	url = https://github.com/mzdavid08/darknet_ros.git
+[submodule "rosEnv/src/gb_visual_detection_3d"]
+	path = rosEnv/src/gb_visual_detection_3d
+	url = https://github.com/UnshiftedEarth/gb_visual_detection_3d
+[submodule "rosEnv/src/gb_visual_detection_3d_msgs"]
+	path = rosEnv/src/gb_visual_detection_3d_msgs
+	url = https://github.com/IntelligentRoboticsLabs/gb_visual_detection_3d_msgs
