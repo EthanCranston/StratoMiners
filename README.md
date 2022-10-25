@@ -5,7 +5,7 @@ Field session (CSCI-370) project for Stratom
 - Use Ubuntu 22.04 LTS
 - Install docker as documented [here](https://docs.docker.com/desktop/install/linux-install/)
 - run `sudo usermod -aG docker {username}` and restart Ubuntu. This sets permissions so `sudo` doesn't have to be used in docker commands
-- run `git clone https://github.com/EthanCranston/StratoMiners.git` to pull the repo.
+- run `git clone --recursive https://github.com/EthanCranston/StratoMiners.git` to pull the repo.
 Then, either source env_setup.sh, or
 - run `./env_setup.sh`
 - run `docker compose up -d` to start container
@@ -20,6 +20,7 @@ Then, either source env_setup.sh, or
 See [Darknet](docs/Darknet.md) for more on using Darknet.
 
 ## Git best-practices
+
 ### Merging to main
 1. `git switch main`
 2. `git pull`
@@ -32,6 +33,12 @@ See [Darknet](docs/Darknet.md) for more on using Darknet.
 9. In the "Reviewers" sidebar, request a review from everyone on the team.
 10. Make any changes and get approval.
 11. In you PR on GitHub, select "Squash and merge" (You may have to look for this in a dropdown menu)
+
+### Updating submodules
+1. Navigate to the submodule folder, commit all changes, and push it to the submodule repository
+2. Then, navigate to the StratoMiners folder
+3. Update the submodules using `git submodule update --remote --init --recursive`
+4. Make a new commit to the StratoMiners repository once your submodules are updated so that they are refreshed remotely.
 
 ## Other
 - To edit files from git in VSCode instead of VIM run `git config --global core.editor "code --wait"`
