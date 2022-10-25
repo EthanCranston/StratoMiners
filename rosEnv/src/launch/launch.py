@@ -12,13 +12,14 @@ def generate_launch_description():
     )
 
     # Launch darknet 3d
-    darknet_3d = ExecuteProcess (
-        cmd=['ros2', 'launch', 'darknet_ros_3d', 'darknet_ros_3d.launch.py']
-    )
+    # darknet_3d = ExecuteProcess (
+    #     cmd=['ros2', 'launch', 'darknet_ros_3d', 'darknet_ros_3d.launch.py']
+    # )
 
     # Play and loop the bag
     bag_play = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-15_07_58']
+        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-14_59_23']
+        # cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-15_07_58']
     )
 
     # Visualize everything in RViz2
@@ -28,7 +29,7 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(darknet)
-    ld.add_action(darknet_3d)
+    # ld.add_action(darknet_3d)
     ld.add_action(bag_play)
     ld.add_action(image_annotaion)
 
