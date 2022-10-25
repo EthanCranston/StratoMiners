@@ -87,29 +87,28 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        base_footprint:
-          base_link:
-            base_scan:
-              {}
-            camera_link:
-              camera_depth_frame:
-                camera_depth_optical_frame:
-                  {}
-              camera_rgb_frame:
-                camera_rgb_optical_frame:
-                  {}
-            caster_back_left_link:
-              {}
-            caster_back_right_link:
-              {}
-            imu_link:
-              {}
-            wheel_left_link:
-              {}
-            wheel_right_link:
-              {}
         odom:
-          {}
+          base_footprint:
+            base_link:
+              base_scan:
+                {}
+              camera_link:
+                camera_depth_frame:
+                  camera_depth_optical_frame:
+                    {}
+                camera_rgb_frame:
+                  camera_rgb_optical_frame:
+                    {}
+              caster_back_left_link:
+                {}
+              caster_back_right_link:
+                {}
+              imu_link:
+                {}
+              wheel_left_link:
+                {}
+              wheel_right_link:
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Image
@@ -279,10 +278,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.34539854526519775
+      Pitch: 0.6503986120223999
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.42040765285491943
+      Yaw: 3.0404059886932373
     Saved: ~
 Window Geometry:
   Displays:
