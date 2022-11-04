@@ -1,0 +1,6 @@
+# Lidar CV
+# StratoMiners
+
+lidar_cv:
+  point_cloud_topic: /rear_velodyne/points
+  found_humans_topic: /lidar_cv/found_humans
