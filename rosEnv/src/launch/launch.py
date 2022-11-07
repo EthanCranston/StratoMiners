@@ -16,10 +16,21 @@ def generate_launch_description():
         cmd=['ros2', 'launch', 'darknet_ros_3d', 'darknet_ros_3d.launch.py']
     )
 
+    # Launch lidar_cv
+    lidar_cv = ExecuteProcess(
+        cmd=['ros2', 'run', 'lidar_cv', 'find_humans']
+    )
+
+    # Launch tf_human publisher
+    tf_human = Node(
+        package='sensor_fusion',
+        executable='tf_human',
+        name='tf_human_publisher'
+    )
+
     # Play and loop the bag
     bag_play = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-14_59_23']
-        # cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/rosbag2_2022_09_06-15_07_58']
+        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/faar_bag_5']
     )
 
     # Visualize everything in RViz2
@@ -30,6 +41,8 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(darknet)
     ld.add_action(darknet_3d)
+    ld.add_action(lidar_cv)
+    ld.add_action(tf_human)
     ld.add_action(bag_play)
     ld.add_action(image_annotaion)
 

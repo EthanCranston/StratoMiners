@@ -4,3 +4,5 @@
 /rosEnv/bags
 /rosEnv/log
 .vscode
+*.pyc
+*.cpython-310.pyc
