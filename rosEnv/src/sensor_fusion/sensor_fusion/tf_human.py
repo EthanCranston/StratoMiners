@@ -66,7 +66,6 @@ def main():
     node = TfHuman()
     try:
         rclpy.spin(node)
+        rclpy.shutdown()
     except KeyboardInterrupt:
-        pass
-
-    rclpy.shutdown()
+        exit()

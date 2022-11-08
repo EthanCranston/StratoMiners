@@ -30,7 +30,7 @@ def generate_launch_description():
 
     # Play and loop the bag
     bag_play = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/faar_bag_5']
+        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/faar_bag_4']
     )
 
     # Visualize everything in RViz2

@@ -10,6 +10,7 @@ RUN sudo apt-get install dialog apt-utils -y
 RUN sudo apt -y install python3-pip
 RUN pip3 install setuptools==58.2.0
 RUN pip3 install opencv-python
+RUN pip3 install scikit-learn
 RUN sudo apt -y install vim
 RUN sudo apt -y install emacs
 RUN export TZ='America/Denver'
