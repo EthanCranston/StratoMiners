@@ -28,11 +28,6 @@ def generate_launch_description():
         name='tf_human_publisher'
     )
 
-    # Play and loop the bag
-    bag_play = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '-l', '/rosEnv/bags/faar_bag_4']
-    )
-
     # Visualize everything in RViz2
     image_annotaion = ExecuteProcess(
         cmd=['rviz2', '-d', '/rosEnv/src/launch/launch.rviz']
@@ -43,7 +38,6 @@ def generate_launch_description():
     ld.add_action(darknet_3d)
     ld.add_action(lidar_cv)
     ld.add_action(tf_human)
-    ld.add_action(bag_play)
     ld.add_action(image_annotaion)
 
     return ld
