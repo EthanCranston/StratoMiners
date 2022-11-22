@@ -25,3 +25,9 @@ setup(
         ],
     },
 )
+# setup(
+#     name='gb_visual_detection_3d_msgs',
+#     version='1.0.0',
+#     packages=find_packages(
+#         include=('gb_visual_detection_3d_msgs', 'gb_visual_detection_3d_msgs.*')),
+# )

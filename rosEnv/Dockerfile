@@ -1,3 +1,6 @@
+# Pulls OpenCV-enabled docker container
+FROM dkimg/opencv:4.5.5-ubuntu
+
 # Pulls base Docker contatiner
 FROM osrf/ros:humble-desktop-full
 
@@ -9,36 +12,22 @@ RUN sudo apt-get install dialog apt-utils -y
 # Downloads additional packages
 RUN sudo apt -y install python3-pip
 RUN pip3 install setuptools==58.2.0
-RUN pip3 install opencv-python
+RUN pip3 install scikit-learn
 RUN sudo apt -y install vim
-RUN sudo apt -y install emacs
-RUN export TZ='America/Denver'
-
-# Installs OpenCV so that each container doesn't have to that individually
-RUN mkdir opencv
-RUN cd opencv
-RUN sudo apt install -y cmake g++ wget unzip
-RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
-RUN unzip opencv.zip
-RUN mkdir -p build && cd build
-RUN cmake  ../opencv-4.x
-RUN cmake --build .
-
-# Installs PCL (Point Cloud library)
-RUN cd / 
-RUN sudo apt install libpcl-dev
-
-# Installs boost and necessary requirements
-RUN cd ../..
+RUN sudo apt -y install ros-humble-rmw-cyclonedds-cpp
+RUN sudo apt -y install libpcl-dev
 RUN sudo apt-get install -y libboost-all-dev
-
-# Install gdb for debugging
 RUN sudo apt-get install libc6-dbg gdb valgrind -y
 
+# Exports necessary variables
+RUN export ROS_DOMAIN_ID=0
+RUN export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp 
+RUN export TZ='America/Denver'
+
 # Sets up work environment and copies rosEnv contents
-COPY . .
+COPY . /rosEnv
 WORKDIR /rosEnv
-RUN chmod +x /build.sh
+ENV HOME /rosEnv
 
 # Creates Docker contatiner
 # RUN docker run -it   --cap-add=SYS_PTRACE  --net host --ipc host  --privileged   -e DISPLAY   -e XAUTHORITY   -v /tmp/.X11-unix:/tmp/.X11-unix  --name humble_devel osrf/ros:humble-desktop-full

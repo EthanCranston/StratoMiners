@@ -1,6 +1,7 @@
 from re import A
 import numpy as np
-import cv2
+import numpy.lib.recfunctions as rfn 
+from sklearn import cluster
 
 import os
 import yaml
@@ -9,8 +10,11 @@ from yaml.loader import SafeLoader
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image, PointCloud2, PointField
-from cv_bridge import CvBridge
+# from lidar_custom_messages.msg import PointCloudWithConidence, PointCloudWithConidenceArray
 
+from tf2_ros import TransformException
+from tf2_ros.buffer import Buffer
+from tf2_ros.transform_listener import TransformListener
 
 # Begin from ros2_numpy
 
@@ -255,7 +259,16 @@ class LidarCV(Node):
         with open(cfg) as f:
             data = yaml.load(f, Loader=SafeLoader)
             point_cloud_topic_ = data['lidar_cv']['point_cloud_topic']
-            found_humans_topic_ = data['lidar_cv']['found_humans_topic']
+            human_points_topic_ = data['lidar_cv']['human_points_topic']
+            clouds_with_confidence_ = data['lidar_cv']['clouds_with_confidence']
+            self.transform_frame_ = data['lidar_cv']['transform_frame']
+            self.working_frame_ = data['lidar_cv']['working_frame']
+            self.human_template_ = data['lidar_cv']['human_template']
+
+        # Load template
+        self.templateResolution = 10
+        # self.get_logger().info(f'DIR: {os.getcwd()}')
+        self.template = np.load(f'src/lidar_cv/lidar_cv/templates/{self.human_template_}')
 
         # Define subscriber
         self.subscription = self.create_subscription(
@@ -265,218 +278,200 @@ class LidarCV(Node):
             10
         )
 
-        # Define image publisher
-        self.img_publisher = self.create_publisher(
-            Image,
-            found_humans_topic_,
+        # Define publisher
+        self.pointsPublisher = self.create_publisher(
+            PointCloud2,
+            human_points_topic_,
             10
         )
 
+        # Define publisher
+        # self.conidencePublisher = self.create_publisher(
+        #     PointCloudWithConidenceArray,
+        #     clouds_with_confidence_,
+        #     10
+        # )
+
+
+        # Define TF buffer
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+
     def lidar_callback(self, cloud: PointCloud2):
+        # Define point cloud in self
+        self.point_cloud_ = cloud
+        self.confidenceMin = 0.5
+
+        # Locate humans
         new_cloud = pointcloud2_to_xyz_array(cloud)
-        found_humans = self.find_humans(new_cloud)
+        humanPoints, clusterToConfidence = self.find_human_points(new_cloud)
+        if humanPoints is None: 
+            self.get_logger().info("LIDAR located no humans")
+            return
+        cloudsWithConfidences = []
+        for cluster, confidence in clusterToConfidence.items():
+            if confidence >= self.confidenceMin:
+                self.get_logger().info(f'LIDAR confidence for cluster {cluster} is {confidence}')
+                # xyzArray = rfn.unstructured_to_structured(humanPoints[np.where(humanPoints[:, 4] == cluster), :3], np.dtype([(n, np.float32) for n in ['x', 'y', 'z']]))
+                # sinlgeHumanCloud = array_to_pointcloud2(xyzArray, frame_id=self.transform_frame_, stamp=cloud.header.stamp)
 
-        for (x, y, z, conf) in found_humans:
+                # PointCloudWithConidence.clu
+                
+
+        xyzArray = rfn.unstructured_to_structured(humanPoints[:, :3], np.dtype([(n, np.float32) for n in ['x', 'y', 'z']]))
+
+        humanCloud = array_to_pointcloud2(xyzArray, frame_id=self.transform_frame_, stamp=cloud.header.stamp)
+        self.pointsPublisher.publish(humanCloud)
+
+
+        self.get_logger().info(f"Located {len(np.unique(humanPoints[:, 3]))} human clusters")
+
+    def get_pointclouds(self, array: np.ndarray) -> list[PointCloud2]:
+        clouds = []
+        for cluster in range(np.max(humanPoints[:, 3])):
+            clusterPoints = array[array[:, 3] == cluster]
+            clouds.append(array_to_pointcloud2(clusterPoints))
+        
+        return clouds
+
+    def create_template(self, array):
+        # normalize
+        for col in range(3):
+            array[:, col] = (array[:, col]-np.min(array[:, col]))/(np.max(array[:, col])-np.min(array[:, col]))
+
+        array = array * (self.templateResolution-2)
+
+        comp = np.zeros([self.templateResolution, self.templateResolution, self.templateResolution])
+
+        for row in array:
+            X = int(np.floor(row[0]))
+            Y = int(np.floor(row[1]))
+            Z = int(np.floor(row[2]))
+            for xOff in range(2):
+                for yOff in range(2):
+                    for zOff in range(2):
+                        comp[X+xOff, Y+yOff, Z+zOff] += np.sqrt((row[0]-X+xOff-1)**2 + (row[1]-Y+yOff-1)**2 + (row[2]-Y+yOff-1)**2)
+
+        # normalize
+        comp = (comp-np.min(comp))/(np.max(comp)-np.min(comp))
+
+        return comp
+
+    def get_template_difference(self, array):
+        comparisonTemplate = self.create_template(array)
+        diffArray = np.reshape(np.abs(self.template - comparisonTemplate), -1)
+        diff = sum(diffArray[np.where(diffArray > 0.75)])
+        maxDiff = 1
+        for s in self.template.shape: maxDiff *= s
+        
+        return diff / maxDiff
+
+    def clean_data(self, array: np.ndarray) -> np.ndarray:
+        '''
+            Removes outlier points
+            Removed floor
+        '''
+        distance = np.sqrt(array[:, 0]**2 + array[:, 1]**2 + array[:, 2]**2)
+        avgDist = np.average(distance)
+        stdDist = np.std(distance)
+        zScores = (distance - avgDist) / stdDist
+        array = array[~(abs(zScores) > 1)]
+
+        try:
+            # Using TF frames, transform the base
+            base_transform = self.tf_buffer.lookup_transform(
+                self.transform_frame_,
+                self.working_frame_,
+                self.point_cloud_.header.stamp)
+
+            # Using the transformed base, find the floor
+            floor = base_transform.transform.translation.z
+
+            # Using found floor, cut off the floor
+            array = array[np.logical_and(array[:, 2], array[:, 2] > floor)]
+        except TransformException as ex:
             self.get_logger().info(
-                f"Found human at ({x}, {y}, {z}) with confidence {conf}")
-
-    def cartesian_to_polar(self, x, y):
-        r = np.sqrt(x**2 + y**2)
-        t = np.arctan2(x, y)
-
-        return r, t
-
-    def polar_to_cartesian(self, r, t):
-        x = r * np.cos(t)
-        y = r * np.sin(t)
-
-        return x, y
-
-    def get_weighted_difference(self, points):
-        diffs = [0 for x in points]
-
-        for i, point in enumerate(points):
-            for i2, otherPoint in enumerate(points):
-                if i == i2:
-                    continue
-                diffs[i] += abs(point - otherPoint) / (i - i2)**(1.5)
-
-        return diffs
-
-    def annotated_lidar_img(self, baseImg, annotationInfo, show):
-        resizeX = 10
-        resizeY = 4
-
-        displayImg = baseImg[:, :, [0, 0, 0]]
-        displayImg = cv2.resize(displayImg, None, fx=resizeX, fy=resizeY)
-
-        for obj in annotationInfo:
-            xPoint = (obj[0][0] * resizeX, obj[0][1] * resizeY)
-            yPoint = (obj[1][0] * resizeX, obj[1][1] * resizeY)
-            confidence = "{:.2f}".format(obj[2])
-
-            displayImg = cv2.rectangle(
-                displayImg, xPoint, yPoint, (0, 0, 255), 2)
-            cv2.putText(displayImg, confidence, xPoint,
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), thickness=1)
-
-        # Using cv_bridge, encode image
-        # https://github.com/eric-wieser/ros_numpy/issues/13
-        bridge = CvBridge()
-        rosImg = bridge.cv2_to_imgmsg(displayImg.round().astype(np.uint8))
-
-        # Publish and actively refresh image
-        cv2.waitKey(1)
-        self.img_publisher.publish(rosImg)
-
-        # Show annotated lidar image as a cv window if prompted
-        if show:
-            cv2.imshow("lidar", displayImg)
-
-    def interpolate(self, array: np.ndarray, ranges: list[tuple]) -> tuple[np.array, list[int], list[int]]:
-        # Interpolation is performed manually instead of using `np.interp()` so that the scale and offset can be saved
-        assert len(array[0]) == len(ranges)
-
-        scaleFactors = [None, None, None]
-        offsets = [None, None, None]
-
-        for i in range(len(ranges)):
-            scaleFactors[i] = (ranges[i][1] - ranges[i][0]) / \
-                (array[:, i].max() - array[:, i].min())
-            offsets[i] = ranges[i][0] - array[:, i].min()
-            array[:, i] = array[:, i] * scaleFactors[i] + \
-                (offsets[i] * scaleFactors[i])
-
-        return array, scaleFactors, offsets
-
-    def unInterpolate(self, array: np.ndarray, scaleFactors, offsets):
-        assert len(array[0]) == len(scaleFactors)
-
-        for i in range(len(scaleFactors)):
-            array[:, i] = (array[:, i] - offsets[i] *
-                           scaleFactors[i]) / scaleFactors[i]
+                f'Could not transform {self.transform_frame_} to {self.working_frame_}: {ex}')
 
         return array
 
-    def generate_binary_slice(self, image, sliceStart, sliceEnd):
-        # thresholds, then open & closes the image to isolate a areas of nearby points
-        _, low_img = cv2.threshold(image, sliceStart, 1, cv2.THRESH_BINARY)
-        _, high_img = cv2.threshold(image, sliceEnd, 1, cv2.THRESH_BINARY_INV)
 
-        binnedImage = cv2.bitwise_and(low_img, high_img)
+    def get_human_confidence(self, points: np.ndarray) -> float:
+        dist = [0, 0, 0]
+        std = [0, 0, 0]
 
-        binnedImage = cv2.morphologyEx(
-            binnedImage, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2, 30)))
-        binnedImage = cv2.morphologyEx(
-            binnedImage, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 20)))
+        for i in range(3):
+            dist[i] = max(points[:,i]) - min(points[:,i])
+            std[i] = np.std(points[:,i])
+        
+        if not (0.5 < dist[2] < 2): # height check
+            return 0
+        if (max(dist[:2]) > 1): # check width
+            return 0
+        if (max(dist[:2]) < 0.3): # check width
+            return 0
+        if (max(std[:2]) > 0.2): # horizontal standard deviation
+            return 0
 
-        return binnedImage
+        threshold = 0.005
+        diff = self.get_template_difference(points)
 
-    def find_matching_components(self, image, sliceDepth, targetSize, threshold):
-        annotationInfo = []
-        centroidCoords = []
-        for start in np.arange(0, 1, sliceDepth):
-            binaryImg = self.generate_binary_slice(
-                image, start, start + sliceDepth)
-            _, _, values, centroids = cv2.connectedComponentsWithStats(
-                np.uint8(binaryImg))
+        if  diff > threshold:
+            return 0
 
-            targetArea = min(targetSize / np.arctan(start + 0.00001), 1000)
+        confidence = (threshold - diff) / threshold
+        return confidence
 
-            ySize = binaryImg.shape[1]
-            for i in range(len(values)):
-                area = values[i][4]
-                if abs(area - targetArea) < threshold:
-                    top, left, height, width = [values[i][x] for x in range(4)]
-                    confidence = 1 - abs(area - targetArea) / threshold
-                    centroidCoords.append(
-                        [ySize - centroids[i][1], centroids[i][0], start + sliceDepth/2])
-                    annotationInfo.append(
-                        [(int(top), int(left)), (int(top + height), int(left + width)), confidence])
 
-        centroidCoords = np.array(centroidCoords)
-        annotationInfo = np.array(annotationInfo)
-
-        return centroidCoords, annotationInfo
-
-    def find_humans(self, lidarPoints: np.ndarray, **kwargs) -> np.ndarray:
+    # def find_humans(self, lidarPoints: np.ndarray, **kwargs) -> np.ndarray:
+    def find_human_points(self, lidarPoints: np.ndarray) -> np.ndarray:
         '''
-        Input:
-        lidarPoints: npArray -> lidar points in form [[x, y, z], ...]
+            Input:
+            lidarPoints: npArray -> lidar points in form [[x, y, z], ...]
 
-        Kwargs:
-        size: int -> relative area of a human
-        sizeThreshold: int -> The acceptable variation from the expected size
-        sliceDepth: float on interval [0,1] -> percentage of depth that is used in each slice
-        showImg: bool -> toggles showing an annotated image for debugging
-
-
-        Output:
-        npArray -> Center point of detected humans and confidence interval in the form [[x, y, z, confidence], ...]
-
-        Notes:
-        x & y = floor plane (The direction of x and y are relative to sensor position)
-        z = vertical
-        r = radius/depth from sensor 
-        t = theta - angle with respect to senor
+            Output:
+            npArray -> human points and which cluster they are a part of in form [[x, y, z, cluster num], ...]
         '''
-        humanSize = kwargs.get("size", 50)
-        sizeThreshold = kwargs.get("thresh", 100)
-        sliceDepth = kwargs.get("sliceDepth", 0.1)
-        showImg = kwargs.get("showImg", False)
+        # Clean the data
+        array = self.clean_data(lidarPoints)
 
-        # [x, y, z] -> [z, y, x]
-        imageArray = lidarPoints[:, [2, 1, 0]]
+        # Cluster humans using DBSCAN
+        dbscan = cluster.DBSCAN(eps=0.15, algorithm="kd_tree", n_jobs=-1)
+        dbscan.fit(array)
+        y_pred = dbscan.labels_.astype(int)
 
-        # This order is used because it is what displays nicely as an image
-        # [z, y, x] -> [z, t, r]
-        imageArray[:, 2], imageArray[:, 1] = self.cartesian_to_polar(
-            imageArray[:, 2], imageArray[:, 1])
 
-        # remove far back points #TODO
-        imageArray = np.delete(imageArray, np.where(
-            imageArray[:, 2] > 15), axis=0)
+        humanClusters = []
+        clusterToConfidence = {}
+        humanPoints = np.zeros(array.shape[0])
+        for clusterI in range(max(y_pred)+1):
+            points = array[y_pred==clusterI]
+            clusterToConfidence[clusterI] = self.get_human_confidence(points)
+            if  clusterToConfidence[clusterI] >= self.confidenceMin:
+                humanClusters.append(clusterI)
+                humanPoints = np.logical_or(humanPoints, y_pred==clusterI)
+        if len(humanClusters) > 0:
+            array = array[humanPoints]
+            y_pred = y_pred[humanPoints]
+            humanPointsWithCluster = np.insert(array, 3, y_pred, axis=1)
+        else:
+            humanPointsWithCluster = None
 
-        imageSize = [100, 100]  # TODO
+        
 
-        # Interpolates coordinates to image size and color depth
-        imageArray, scaleFactors, offsets = self.interpolate(
-            imageArray, [(0, imageSize[0] - 1), (0, imageSize[1] - 1), (0, 1)])
+        return humanPointsWithCluster, clusterToConfidence
 
-        bwImage = np.zeros((imageSize[0], imageSize[1], 1))
-        # Assigns array to image values #TODO
-        for row in imageArray:
-            bwImage[imageSize[0] - int(row[0]) - 1, int(row[1])] = [row[2]]
-
-        centroidCoords, annotationInfo = self.find_matching_components(
-            bwImage, sliceDepth, humanSize, sizeThreshold)
-
-        # Scale points back to original scene
-        centerPoints = self.unInterpolate(
-            centroidCoords, scaleFactors, offsets)
-        # [z, t, r] -> [z, y, x]
-        centerPoints[:, 2], centerPoints[:, 1] = self.polar_to_cartesian(
-            centerPoints[:, 2], centerPoints[:, 1])
-        # [z, y, x] -> [x, y, z]
-        centerPoints = centerPoints[:, [2, 1, 0]]
-
-        # Adds confidence intervals
-        pointsAndConfidence = np.insert(
-            centerPoints, 3, annotationInfo[:, 2], axis=1)
-
-        # Publish/show annotated lidar image
-        self.annotated_lidar_img(bwImage, annotationInfo, showImg)
-        return pointsAndConfidence
 
 
 def main(args=None):
     rclpy.init(args=args)
 
     lidar_cv = LidarCV()
-
-    rclpy.spin(lidar_cv)
-
-    rclpy.shutdown()
+    try: 
+        rclpy.spin(lidar_cv)
+        rclpy.shutdown()
+    except KeyboardInterrupt:
+        exit()
 
 
 if __name__ == '__main__':

@@ -3,4 +3,8 @@
 
 lidar_cv:
   point_cloud_topic: /rear_velodyne/points
-  found_humans_topic: /lidar_cv/found_humans
+  human_points_topic: /lidar_cv/humanPoints
+  clouds_with_confidence: /lidar_cv/lidarCoudsWithConfidence
+  transform_frame: rear_velodyne_base_link
+  working_frame: base_footprint
+  human_template: combined_template_v1.npy

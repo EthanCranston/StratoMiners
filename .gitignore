@@ -3,6 +3,9 @@
 /rosEnv/install
 /rosEnv/bags
 /rosEnv/log
+/rosEnv/.bash_history
+/rosEnv/.ros
+/rosEnv/.rviz2
 .vscode
 *.pyc
 *.cpython-310.pyc
