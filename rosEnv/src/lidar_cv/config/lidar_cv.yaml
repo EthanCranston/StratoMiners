@@ -7,4 +7,4 @@ lidar_cv:
   clouds_with_confidence: /lidar_cv/lidarCoudsWithConfidence
   transform_frame: rear_velodyne_base_link
   working_frame: base_footprint
-  expected_human_density: 0.15
+  human_template: combined_template_v1.npy

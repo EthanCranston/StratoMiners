@@ -253,9 +253,6 @@ class LidarCV(Node):
 
     def __init__(self):
         super().__init__("LidarCV")
-        self.templateResolution = 10
-        # self.get_logger().info(f'DIR: {os.getcwd()}')
-        self.template = np.load('src/lidar_cv/lidar_cv/kristinTemplateV2-10.npy')
 
         # Load YAML file
         cfg = os.path.join(os.path.dirname(os.path.realpath('__file__')), 'src/lidar_cv/config/lidar_cv.yaml')
@@ -266,7 +263,12 @@ class LidarCV(Node):
             clouds_with_confidence_ = data['lidar_cv']['clouds_with_confidence']
             self.transform_frame_ = data['lidar_cv']['transform_frame']
             self.working_frame_ = data['lidar_cv']['working_frame']
-            self.expected_human_density_ = float(data['lidar_cv']['expected_human_density'])
+            self.human_template_ = data['lidar_cv']['human_template']
+
+        # Load template
+        self.templateResolution = 10
+        # self.get_logger().info(f'DIR: {os.getcwd()}')
+        self.template = np.load(f'src/lidar_cv/lidar_cv/templates/{self.human_template_}')
 
         # Define subscriber
         self.subscription = self.create_subscription(
@@ -434,7 +436,7 @@ class LidarCV(Node):
         array = self.clean_data(lidarPoints)
 
         # Cluster humans using DBSCAN
-        dbscan = cluster.DBSCAN(eps=self.expected_human_density_, algorithm="kd_tree", n_jobs=-1)
+        dbscan = cluster.DBSCAN(eps=0.15, algorithm="kd_tree", n_jobs=-1)
         dbscan.fit(array)
         y_pred = dbscan.labels_.astype(int)
 
