@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'lidar_cv'
+package_name = 'lidar_detection'
 
 setup(
     name=package_name,
@@ -20,14 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'lidar_process = lidar_cv.lidar_process:main',
-            'find_humans = lidar_cv.find_humans:main'
+            'find_humans = lidar_detection.find_humans:main'
         ],
     },
 )
-# setup(
-#     name='gb_visual_detection_3d_msgs',
-#     version='1.0.0',
-#     packages=find_packages(
-#         include=('gb_visual_detection_3d_msgs', 'gb_visual_detection_3d_msgs.*')),
-# )

@@ -20,9 +20,9 @@ RUN sudo apt-get install -y libboost-all-dev
 RUN sudo apt-get install libc6-dbg gdb valgrind -y
 
 # Exports necessary variables
-RUN export ROS_DOMAIN_ID=0
-RUN export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp 
-RUN export TZ='America/Denver'
+ENV ROS_DOMAIN_ID=0
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp 
+ENV TZ='America/Denver'
 
 # Sets up work environment and copies rosEnv contents
 COPY . /rosEnv

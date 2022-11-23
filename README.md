@@ -23,10 +23,10 @@ Then, either source env_setup.sh, or
 
 ### Configuration
 All nodes are configurable using YAML files in similar formats to those currently in use. These are found in the following config folders:
-- `/rosEnv/src/darknet_ros/darknet_ros/config`
-- `/rosEnv/src/gb_visual_detection_3d/darknet_ros_3d/config`
-- `/rosEnv/src/lidar_cv/config`
-- `/rosEnv/src/sensor_fusion/config`
+- `/rosEnv/src/image_detection/darknet_ros/config`
+- `/rosEnv/src/sensor_fusion/darknet_ros_3d/config`
+- `/rosEnv/src/lidar_detection/config`
+- `/rosEnv/src/tf_human/config`
 
 ## Git best-practices
 

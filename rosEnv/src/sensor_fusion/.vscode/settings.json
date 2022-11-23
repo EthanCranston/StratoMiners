@@ -1,7 +1,0 @@
-{
-    "python.autoComplete.extraPaths": [
-        "/root/StratoMiners/install/sensor_fusion/lib/python3.10/site-packages",
-        "/opt/ros/humble/lib/python3.10/site-packages",
-        "/opt/ros/humble/local/lib/python3.10/dist-packages"
-    ]
-}

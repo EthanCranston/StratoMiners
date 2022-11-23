@@ -1,12 +1,12 @@
-[submodule "rosEnv/src/darknet_ros"]
-	path = rosEnv/src/darknet_ros
+[submodule "rosEnv/src/sensor_fusion_msgs"]
+	path = rosEnv/src/sensor_fusion_msgs
+	url = https://github.com/IntelligentRoboticsLabs/gb_visual_detection_3d_msgs.git
+	branch = master
+[submodule "rosEnv/src/sensor_fusion"]
+	path = rosEnv/src/sensor_fusion
+	url = https://github.com/UnshiftedEarth/gb_visual_detection_3d.git
+	branch = master
+[submodule "rosEnv/src/image_detection"]
+	path = rosEnv/src/image_detection
 	url = https://github.com/mzdavid08/darknet_ros.git
-	branch = master
-[submodule "rosEnv/src/gb_visual_detection_3d"]
-	path = rosEnv/src/gb_visual_detection_3d
-	url = https://github.com/UnshiftedEarth/gb_visual_detection_3d
-	branch = master
-[submodule "rosEnv/src/gb_visual_detection_3d_msgs"]
-	path = rosEnv/src/gb_visual_detection_3d_msgs
-	url = https://github.com/IntelligentRoboticsLabs/gb_visual_detection_3d_msgs
 	branch = master

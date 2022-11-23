@@ -1,0 +1,5 @@
+# tf_human
+# StratoMiners
+
+tf_human:
+  output_bbx3d_topic: /sensor_fusion/bounding_boxes

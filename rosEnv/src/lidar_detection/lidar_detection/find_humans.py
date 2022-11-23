@@ -10,7 +10,7 @@ from yaml.loader import SafeLoader
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image, PointCloud2, PointField
-# from lidar_custom_messages.msg import PointCloudWithConidence, PointCloudWithConidenceArray
+# from lidar_detection_msgs.msg import PointCloudWithConidence, PointCloudWithConidenceArray
 
 from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
@@ -249,26 +249,27 @@ def pointcloud2_to_xyz_array(cloud_msg, remove_nans=True):
 # End from ros2_numpy
 
 
-class LidarCV(Node):
+class LidarDetection(Node):
 
     def __init__(self):
-        super().__init__("LidarCV")
+        super().__init__("LidarDetection")
 
         # Load YAML file
-        cfg = os.path.join(os.path.dirname(os.path.realpath('__file__')), 'src/lidar_cv/config/lidar_cv.yaml')
+        cfg = os.path.join(os.path.dirname(os.path.realpath('__file__')), 'src/lidar_detection/config/lidar_detection.yaml')
         with open(cfg) as f:
             data = yaml.load(f, Loader=SafeLoader)
-            point_cloud_topic_ = data['lidar_cv']['point_cloud_topic']
-            human_points_topic_ = data['lidar_cv']['human_points_topic']
-            clouds_with_confidence_ = data['lidar_cv']['clouds_with_confidence']
-            self.transform_frame_ = data['lidar_cv']['transform_frame']
-            self.working_frame_ = data['lidar_cv']['working_frame']
-            self.human_template_ = data['lidar_cv']['human_template']
+            point_cloud_topic_ = data['lidar_detection']['point_cloud_topic']
+            human_points_topic_ = data['lidar_detection']['human_points_topic']
+            clouds_with_confidence_ = data['lidar_detection']['clouds_with_confidence']
+            self.transform_frame_ = data['lidar_detection']['transform_frame']
+            self.working_frame_ = data['lidar_detection']['working_frame']
+            self.human_template_ = data['lidar_detection']['human_template']
+            self.confidence_min_ = float(data['lidar_detection']['confidence_minimum'])
 
         # Load template
         self.templateResolution = 10
         # self.get_logger().info(f'DIR: {os.getcwd()}')
-        self.template = np.load(f'src/lidar_cv/lidar_cv/templates/{self.human_template_}')
+        self.template = np.load(f'src/lidar_detection/lidar_detection/templates/{self.human_template_}')
 
         # Define subscriber
         self.subscription = self.create_subscription(
@@ -300,7 +301,6 @@ class LidarCV(Node):
     def lidar_callback(self, cloud: PointCloud2):
         # Define point cloud in self
         self.point_cloud_ = cloud
-        self.confidenceMin = 0.5
 
         # Locate humans
         new_cloud = pointcloud2_to_xyz_array(cloud)
@@ -310,7 +310,7 @@ class LidarCV(Node):
             return
         cloudsWithConfidences = []
         for cluster, confidence in clusterToConfidence.items():
-            if confidence >= self.confidenceMin:
+            if confidence >= self.confidence_min_:
                 self.get_logger().info(f'LIDAR confidence for cluster {cluster} is {confidence}')
                 # xyzArray = rfn.unstructured_to_structured(humanPoints[np.where(humanPoints[:, 4] == cluster), :3], np.dtype([(n, np.float32) for n in ['x', 'y', 'z']]))
                 # sinlgeHumanCloud = array_to_pointcloud2(xyzArray, frame_id=self.transform_frame_, stamp=cloud.header.stamp)
@@ -436,7 +436,7 @@ class LidarCV(Node):
         array = self.clean_data(lidarPoints)
 
         # Cluster humans using DBSCAN
-        dbscan = cluster.DBSCAN(eps=0.15, algorithm="kd_tree", n_jobs=-1)
+        dbscan = cluster.DBSCAN(eps=0.3, algorithm="kd_tree", n_jobs=-1)
         dbscan.fit(array)
         y_pred = dbscan.labels_.astype(int)
 
@@ -447,7 +447,7 @@ class LidarCV(Node):
         for clusterI in range(max(y_pred)+1):
             points = array[y_pred==clusterI]
             clusterToConfidence[clusterI] = self.get_human_confidence(points)
-            if  clusterToConfidence[clusterI] >= self.confidenceMin:
+            if  clusterToConfidence[clusterI] >= self.confidence_min_:
                 humanClusters.append(clusterI)
                 humanPoints = np.logical_or(humanPoints, y_pred==clusterI)
         if len(humanClusters) > 0:
@@ -466,9 +466,9 @@ class LidarCV(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    lidar_cv = LidarCV()
+    lidar_detection = LidarDetection()
     try: 
-        rclpy.spin(lidar_cv)
+        rclpy.spin(lidar_detection)
         rclpy.shutdown()
     except KeyboardInterrupt:
         exit()
