@@ -1,0 +1,11 @@
+# lidar_detection
+# StratoMiners
+
+lidar_detection:
+  point_cloud_topic: /rear_velodyne/points
+  human_points_topic: /lidar_detection/humanPoints
+  clouds_with_confidence: /lidar_detection/lidarCloudsWithConfidence
+  transform_frame: rear_velodyne_base_link
+  working_frame: base_footprint
+  human_template: stratominers_template_v2.npy
+  confidence_minimum: 0.5

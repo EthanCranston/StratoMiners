@@ -17,10 +17,10 @@ class TfHuman(Node):
         super().__init__('fixed_frame_tf2_broadcaster')
 
         # Load YAML file
-        cfg = os.path.join(os.path.dirname(os.path.realpath('__file__')), 'src/sensor_fusion/config/sensor_fusion.yaml')
+        cfg = os.path.join(os.path.dirname(os.path.realpath('__file__')), 'src/tf_human/config/tf_human.yaml')
         with open(cfg) as f:
             data = yaml.load(f, Loader=SafeLoader)
-            output_bbx3d_topic_ = data['sensor_fusion']['output_bbx3d_topic']
+            output_bbx3d_topic_ = data['tf_human']['output_bbx3d_topic']
         
         self.tf_broadcaster = TransformBroadcaster(self)
         self.timer = self.create_timer(0.1, self.broadcast_timer_callback)

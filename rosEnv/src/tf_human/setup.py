@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'sensor_fusion'
+package_name = 'tf_human'
 
 setup(
     name=package_name,
@@ -20,10 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "hello_world = sensor_fusion.hello_world:main",
-            "image_show = sensor_fusion.image_show:main",
-            "image_detection = sensor_fusion.image_detection:main",
-            "tf_human = sensor_fusion.tf_human:main"
+            "tf_human = tf_human.tf_human:main"
         ],
     },
 )
