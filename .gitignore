@@ -6,6 +6,7 @@
 /rosEnv/.bash_history
 /rosEnv/.ros
 /rosEnv/.rviz2
+/rosEnv/.nv
 .vscode
 *.pyc
 *.cpython-310.pyc

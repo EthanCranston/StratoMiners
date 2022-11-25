@@ -9,4 +9,4 @@
 [submodule "rosEnv/src/image_detection"]
 	path = rosEnv/src/image_detection
 	url = https://github.com/mzdavid08/darknet_ros.git
-	branch = master
+	branch = nvidia

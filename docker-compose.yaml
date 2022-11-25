@@ -16,5 +16,13 @@ services:
     environment: # -e DISPLAY   -e XAUTHORITY
       - DISPLAY
       - XAUTHORITY
-    
-
+    ports:
+      - "8000:8000"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
